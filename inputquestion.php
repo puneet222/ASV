@@ -198,11 +198,13 @@ $(document).ready(function(){
 
 	$("#custmcq").click(function(){
 		putQuestion(1) ;
+		$("#opt").show() ;
 		$("#modal2").openModal();
 	})
 
 	$("#custinput").click(function(){
 		putQuestion(2) ;
+		$("#opt").hide() ;
 		$("#modal2").openModal() ;
 	})
 
@@ -399,7 +401,7 @@ $(document).ready(function(){
             <textarea id="input-question" class="materialize-textarea" length="120"></textarea>
             <label for="input-question">Input Question</label>
 						<h5 class="header">Adding options just by entering</h5>
-						<div class="chips chips-placeholder"></div>
+						<div class="chips chips-placeholder" id="opt"></div>
 
           </div>
         </div>
