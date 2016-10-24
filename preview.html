@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <title> Preview Page</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+      <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+      <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+      <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
+
+  </head>
+  <!-- ------------------ CSS --------------------- -->
+  <style type="text/css">
+
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $("#show").click(function(){
+        $.ajax({
+          type:"GET",
+          url:"previewquestion.php" ,
+          cache:false ,
+          success:function(result){
+            console.log(result) ;
+          }
+        });
+      })
+    })
+  </script>
+  <body>
+
+    <nav class="white" role="navigation">
+        <div class="nav-wrapper container">
+          <a id="logo-container" href="#" class="brand-logo" style="color:black">Logo</a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#">Navbar Link</a></li>
+          </ul>
+
+          <ul id="nav-mobile" class="side-nav">
+            <li><a href="#">Navbar Link</a></li>
+            <li><a href="#">Voting</a></li>
+            <li><a href="takesurvey.php">Take Survey</a></li>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Sign Up</a></li>
+          </ul>
+          <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+      <button class="btn" id="show">Show</button>
+
+
+      <div id="content">
+        <div class="row">
+          <div class="col s12 m12">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <!-- <span class="card-title">Card Title</span> -->
+                <p>How would you rate the quality of the class room ?</p>
+                <input name="group1" type="radio" id="test1" class="white-text"/>
+                <label for="test1">Very Satisfied</label>
+                <input name="group1" type="radio" id="test1" class="white-text"/>
+                <label for="test1">Satisfied</label>
+                <input name="group1" type="radio" id="test1" class="white-text"/>
+                <label for="test1">Neutral</label>
+                <input name="group1" type="radio" id="test1" class="white-text"/>
+                <label for="test1">Not very Satisfied</label>
+                <input name="group1" type="radio" id="test1" class="white-text"/>
+                <label for="test1">Not at all Satisfied</label>
+              </div>
+              <div class="card-action">
+                <a href="#"><i class="material-icons">delete</i></a>
+                <a href="#"><i class="material-icons">mode_edit</i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+
+</html>
