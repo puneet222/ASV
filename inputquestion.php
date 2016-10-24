@@ -133,16 +133,31 @@ $(document).ready(function(){
     });
   })
 
+/* ------------------------------------   Button for adding the Questions along with the optins  -------- */
+
 	$("#input-add").click(function(){
 		inputdata = $("#input-question").val() ;
-		alert("click") ;
-		var da = $('.chips').material_chip('data');
-		console.log(da) ;
+		var send_data = "" ;
 		inputdata = inputdata + type ;
+		if(type == ",1")   // if the type is mcq then we also have to send the options
+		{
+			var option = $('.chips').material_chip('data');
+			var send_option = "" ;
+			for(var i = 0 ; i < (option.length - 1) ; i++)
+			{
+				send_option = send_option + option[i]["tag"] + "," ;
+			}
+			send_option = send_option + option[option.length - 1]["tag"] ;
+			console.log(send_option) ;
+			send_data = "question=" + inputdata + "&option=" + send_option ; // change the send data variable accordingly
+		}
+		else {
+			send_data = "question=" + inputdata ;
+		}
 		$.ajax({
 			type: "POST" ,
 			url:"putquestion.php" ,
-			data:"question=" + inputdata ,
+			data:send_data ,
 			cache:false ,
 			success:function(result){
 				console.log("input question debuging") ;

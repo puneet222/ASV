@@ -1,9 +1,9 @@
 <?php
 session_start() ;
 $data = $_POST['question'] ;
-$option = $_POST['option'] ;
-echo "below are the options--------------------------------------------" ;
-echo $option ;
+
+// echo "below are the options--------------------------------------------" ;
+// echo $option ;
 // echo $data ;
 $arr = explode("," , $data) ;
 $question = $arr[0] ;
@@ -64,5 +64,19 @@ $stmt = $conn->prepare($query) ;
 $stmt->bind_param('sssd' , $id , $sid , $question , $type) ; // bind the parameters
 
 $stmt->execute() ;
+
+// sending options in the database in case of mcq type ;
+
+if($type == "1") // if mcq
+{
+  $option = $_POST['option'] ;
+  $query = "INSERT INTO `survey_answer_custom`(`qid`, `answer_option`) VALUES (?,?)" ;
+  $stmt = $conn->prepare($query) ;
+  $stmt->bind_param('ss' , $id , $option) ;
+  $stmt->execute() ;
+
+}
+
+
 
 ?>
