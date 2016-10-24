@@ -1,5 +1,5 @@
 <?php
-$surveyid = $_GET['surveyid'] ;
+session_start() ;
 
 ?>
 
@@ -21,6 +21,13 @@ $surveyid = $_GET['surveyid'] ;
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
+
+
+
+
+
+
+
   <style type="text/css">
   .cir{
     height: 160px ;
@@ -44,6 +51,9 @@ $surveyid = $_GET['surveyid'] ;
     border-radius: 150px ;
   }
   </style>
+
+
+
 </head>
 <body>
 <nav class="white" role="navigation">
@@ -70,6 +80,8 @@ $surveyid = $_GET['surveyid'] ;
   <br>
   <div class="row">
     <div class="col s4 teal darken-4 center offset-s2" id="step1">
+			<br>
+      <br>
       <h6 class="white-text">Choose the number of surveys. </h6>
     </div>
     <div class="col s4 deep-orange darken-4 center offset-s2" id="step2">
@@ -78,13 +90,15 @@ $surveyid = $_GET['surveyid'] ;
       <h6 class="white-text">Select or post the questions of the survey.</h6>
     </div>
     <div class="col s4 pink darken-4 center offset-s2" id="step3">
+			<br>
+      <br>
       <h6 class="white-text">Get the shareable link.</h6>
     </div>
   </div>
   <br>
   <div class="row">
     <div class="col s12 m12 l12 center">
-      <a class="btn center" href="inputquestion.php?surveyid=<?php echo $surveyid ?>">START</a>
+      <a class="btn center" href="inputquestion.php">START</a>
     </div>
   </div>
 
