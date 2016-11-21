@@ -59,7 +59,7 @@ console.log(question) ;
           {
             var qid = object[i]["qid"] ;
             var ques = object[i]["question"] ;
-            var question = ' <div class="row"> <div class="col s12 m12"> <div class="card blue-grey darken-1" id="div-' + qid + '"> <div class="card-content white-text"><p>'+ ques +'</p>' ;
+            var question = ' <div class="row"> <div class="col s12 m12"> <div class="card blue-grey darken-1" id="div-' + qid + '"> <div class="card-content white-text"><p id="div1-'+ qid  +'">'+ ques +'</p>' ;
             var down = '</div <div class="card-action"> <a href="#" class="del" id="' + qid + '"><i  class="material-icons">delete</i></a> <a href="#" class="edit" id="'+ qid +'"><i class="material-icons">mode_edit</i></a> </div> </div> </div> </div>' ;
 
             $("#content").append(question+down).hide().fadeIn(2000) ;
@@ -72,9 +72,34 @@ console.log(question) ;
 
       function deleteQuestion(qid){
         $.ajax({
-          url: "deleteques.php",
+          type : "POST",
+          url: "deletepreview.php",
+          data : "qid="+qid ,
+          cache : false ,
+          success : function(result){
+            console.log(result) ;
+          }
         })
       }
+
+      $(document).on("click" , "#edit-modal-btn" , function(){
+        var qid = $("#modal-question").attr("class") ;
+        // removing the class of the input field of the  modal-question
+        $("#modal-question").removeClass(qid) ;
+        var question = $("#modal-question").val() ;
+        // console.log("question is : " + question) ;
+        // console.log("question id of the edited question" + qid) ;
+        $.ajax({
+          type : "POST" ,
+          url : "editpreview.php" ,
+          data : "qid=" + qid + "&question=" + question ,
+          cache : false ,
+          success : function(result){
+            console.log(result) ;
+            $("#div1-"+qid).text(question) ;
+          }
+        })
+      })
 
 
       $(document).on('click' , '.del' , function(){
@@ -83,12 +108,18 @@ console.log(question) ;
         console.log(val) ;
         var deldiv = "div-"+ val ;
         $("#"+deldiv).hide("slow") ;
+        deleteQuestion(val) ;
       })
 
       $(document).on('click' , '.edit' , function(){
         var val = $(this).attr("id") ;
         console.log(val) ;
-
+        var question = $("#div1-"+ val).text() ;
+        console.log($("#div1-"+ val).text()) ;
+        // $('.modal').modal();
+        $("#modal-question").val(question) ;
+        $("#modal-question").addClass(val) ;
+        $('#modal1').openModal() ;
       })
     })
   </script>
@@ -144,7 +175,21 @@ console.log(question) ;
           </div>
         </div>
       </div>
+      <!--=--------------------------------- Modal for edit question  ------------------------ -->
+
+      <div id="modal1" class="modal">
+      <div class="modal-content">
+        <h4>Edit Question</h4>
+        <input id="modal-question">
+      </div>
+      <div class="modal-footer">
+        <a href="#" id = "edit-modal-btn" class=" modal-action modal-close waves-effect waves-green btn-flat">EDIT</a>
+      </div>
     </div>
+    </div>
+
+
+
   </body>
 
 
