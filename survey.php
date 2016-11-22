@@ -70,7 +70,7 @@ echo $sid ;
           for(var i = 0 ; i < len ; i++)
           {
             // console.log($('input[name='+ result[i]["qid"] +']:checked').val()) ;
-            if(result[i]["type"] == "1")
+            if(result[i]["type"] == "1" || result[i]["type"] == "4" || result[i]["type"] == "3")
             {
               sendobj += $('input[name='+ result[i]["qid"] +']:checked').val() + ","
             }
@@ -135,7 +135,7 @@ echo $sid ;
                 console.log("option array length : " + olen)
                 for(var j = 0 ; j < olen ; j++)
                 {
-                  console.log("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"] +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]  + "'" + ">" + options[j]["answer_option"] + "</label>") ;
+                  // console.log("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"] +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]  + "'" + ">" + options[j]["answer_option"] + "</label>") ;
                   $("#options").append("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"]+j +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+'-'+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]+j  + "'" + ">" + optarr[j] + "</label><br>") ;
                 }
 
@@ -143,14 +143,26 @@ echo $sid ;
               if(result[i]["type"] == "2")
               {
                 console.log("input");
+
               }
               if(result[i]["type"] == "3")
               {
-                console.log("custom");
+                console.log("rank");
+                $("#options").append("<h4 class='header'>" + result[i]['question'] + "</h4>") ;
+                var rankarr = ["Very Satisfied" , "Satisfied" , "Neutral" , "Somewhat Satisfied" , "Not at all Satisfied"] ;
+                for(var j = 0 ; j < 5 ; j++){
+                  $("#options").append("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"]+j +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+'-'+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]+j  + "'" + ">" + rankarr[j] + "</label><br>")
+                }
+
               }
               if(result[i]["type"] == "4")
               {
-                console.log("rank");
+                $("#options").append("<h4 class='header'>" + result[i]['question'] + "</h4>") ;
+                var custarr = ["custom option 1" , "custom option 2" , "custom option 3" , "custom option 4" , "custom option 5"] ;
+                for(var j = 0 ; j < 5 ; j++){
+                  $("#options").append("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"]+j +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+'-'+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]+j  + "'" + ">" + custarr[j] + "</label><br>")
+                }
+                console.log("custom");
               }
             }
           }
