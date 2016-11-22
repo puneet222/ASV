@@ -70,9 +70,9 @@ $stmt->execute() ;
 if($type == "1") // if mcq
 {
   $option = $_POST['option'] ;
-  $query = "INSERT INTO `survey_answer_custom`(`qid`, `answer_option`) VALUES (?,?)" ;
+  $query = "INSERT INTO `survey_answer_custom`(`qid`, `answer_option`, `survey_id`) VALUES (?,?,?)" ;
   $stmt = $conn->prepare($query) ;
-  $stmt->bind_param('ss' , $id , $option) ;
+  $stmt->bind_param('sss' , $id , $option, $sid) ;
   $stmt->execute() ;
 
 }
