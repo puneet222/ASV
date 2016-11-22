@@ -67,6 +67,8 @@ $stmt->execute() ;
 
 // sending options in the database in case of mcq type ;
 
+// initalizing the mcq questions is in "getoptions.php" page ;
+
 if($type == "1") // if mcq
 {
   $option = $_POST['option'] ;
@@ -75,6 +77,23 @@ if($type == "1") // if mcq
   $stmt->bind_param('sss' , $id , $option, $sid) ;
   $stmt->execute() ;
 
+}
+// initializing the type 3 and type 4 question
+$init = "0,0,0,0,0" ;
+if($type == "3")
+{
+  $query = "INSERT INTO `survey_answer_type3`(`qid`, `survey_id`, `response`) VALUES (?,?,?)" ;
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param('sss' , $id , $sid , $init ) ;
+  $stmt->execute() ;
+}
+$init = "0,0,0,0,0" ;
+if($type == "4")
+{
+  $query = "INSERT INTO `survey_answer_type4`(`qid`, `survey_id`, `response`) VALUES (?,?,?)" ;
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param('sss' , $id , $sid , $init ) ;
+  $stmt->execute() ;
 }
 
 
