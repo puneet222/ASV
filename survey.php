@@ -28,6 +28,18 @@ echo $sid ;
 
   <script type="text/javascript">
   $(document).ready(function(){
+
+    $('.myForm input').on('change', function() {
+    console.log($('input[name=group1]:checked', '.myForm').val());
+    });
+
+    $("#bt").click(function(){
+      var test = $("#test1").checked ;
+      console.log(test) ;
+      console.log($('input[name=group1]:checked').val());
+      console.log($('input[name=group2]:checked').val());
+    })
+
     $.ajax({
       type : "POST",
       url : "getsurveyquestions.php",
@@ -36,6 +48,61 @@ echo $sid ;
       success : function(result){
         result = JSON.parse(result) ;
         console.log(result) ;
+
+        // get the questions of the survey and now getting the options
+        var len = result.length ;
+
+        function getOptions(qid , options)
+        {
+          for(var i = 0 ; i < options.length ; i++)
+          {
+            if(qid == options[i]["qid"])
+            {
+              return options[i] ;
+            }
+          }
+        }
+
+
+
+        $.ajax({
+          type : "POST",
+          url : "getoptions.php",
+          data : "surveyid=<?php echo $sid ?>" ,
+          cache : false,
+          success : function(options){
+            options = JSON.parse(options) ;
+            console.log(options) ;
+            console.log(result);
+
+            // having all the questions and options of mcq questions
+
+            for (var i = 0; i < len; i++) {
+              // c  onsole.log("type : " + result[i]["type"]) ;
+              if(result[i]["type"] == "1")
+              {
+                console.log("mcq") ;
+                var opt = getOptions(result[i]["qid"] , options) ;
+                console.log(opt) ;
+
+
+
+              }
+              if(result[i]["type"] == "2")
+              {
+                console.log("input");
+              }
+              if(result[i]["type"] == "3")
+              {
+                console.log("custom");
+              }
+              if(result[i]["type"] == "4")
+              {
+                console.log("rank");
+              }
+            }
+          }
+        })
       }
     })
   })
@@ -59,6 +126,54 @@ echo $sid ;
         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
       </div>
   </nav>
+
+  <div class="container">
+
+    <div id="heading">
+      <div id="main-content">
+        <div id="question">
+          <!-- here goes the question -->
+        </div>
+        <div id="options">
+          <!-- here goes the options of the questions -->
+        </div>
+      </div>
+    </div>
+
+    <form action="#" class="myForm">
+        <p>
+          <input name="group1" type="radio" id="test1" value="red" />
+          <label for="test1">Red</label>
+        </p>
+        <p>
+          <input name="group1" type="radio" id="test2" value="yell"/>
+          <label for="test2">Yellow</label>
+        </p>
+        <p>
+          <input class="with-gap" name="group1" type="radio" id="test3"  value="gre"/>
+          <label for="test3">Green</label>
+        </p>
+      </form>
+
+      <form action="#" class="myForm">
+          <p>
+            <input name="group2" type="radio" id="test12" value="yelloq" />
+            <label for="test12">Red</label>
+          </p>
+          <p>
+            <input name="group2" type="radio" id="test22" value="yell2" />
+            <label for="test22">Yellow</label>
+          </p>
+          <p>
+            <input class="with-gap" name="group2" type="radio" id="test32" value="gre2" />
+            <label for="test32">Green</label>
+          </p>
+
+        </form>
+
+        <button id="bt">test</button>
+
+</div>
 
 
   <footer class="page-footer teal">
