@@ -77,6 +77,16 @@ echo $sid ;
           }
           sendobj = sendobj.slice(0,sendobj.length-1);
           console.log(sendobj) ;
+          // send this to another page to update the database
+          $.ajax({
+            type : "POST" ,
+            url : "submitresponse.php",
+            data : "str=" + sendobj + "&surveyid=" + "<?php echo $sid ?>" + "&email=" + "<?php echo $email ?>" ,
+            cache : false,
+            success : function(response){
+              console.log(response) ;
+            }
+          })
         }
       }) ;
     })
