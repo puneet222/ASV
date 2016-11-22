@@ -1,11 +1,8 @@
 <?php
-// $sid = $_POST["surveyid"] ;
-$sid = $_GET["sur"] ;
+$sid = $_POST["surveyid"] ;
+// $sid = $_GET["sur"] ;
 include('dbcon.php');
 $query = "SELECT * FROM `survey_answer_custom` WHERE survey_id = " . "'" . $sid . "'" ;
-// echo $query ;
-// $ts = array('saa' => "laa" );
-// $ts.push("add" => "marja" ) ;
 $result = $conn->query($query) ;
 // $return = array() ;
 $options = array() ;
@@ -31,13 +28,10 @@ while($row = $result->fetch_assoc()) {
   $stmt->execute() ;
 
 }
-// $return['options'] = $options ;
-echo "-------------------------------\n" ;
+$return['options'] = $options ;
 echo json_encode($options) ;
 
 
 // -----------------------  INITIALIZING THE QUESTION TABLE --------------------------------
-// echo $options['qid'];
 
-// echo $opt[0] ;
 ?>
