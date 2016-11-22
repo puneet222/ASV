@@ -29,16 +29,59 @@ echo $sid ;
   <script type="text/javascript">
   $(document).ready(function(){
 
+    $("#question").html("") ;
+    $("#options").html("");
+
     $('.myForm input').on('change', function() {
     console.log($('input[name=group1]:checked', '.myForm').val());
     });
 
+
+
+    function getOptions(qid , options)
+    {
+      for(var i = 0 ; i < options.length ; i++)
+      {
+        if(qid == options[i]["qid"])
+        {
+          return options[i] ;
+        }
+      }
+    }
+
+    var sendobj = {} ;
+    sendobj["test"] = "1" ;
+    sendobj["test1"] = "12" ;
+    sendobj["test2"] = "13" ;
+
+    console.log(sendobj) ;
+
     $("#bt").click(function(){
-      var test = $("#test1").checked ;
-      console.log(test) ;
-      console.log($('input[name=group1]:checked').val());
-      console.log($('input[name=group2]:checked').val());
+      $.ajax({
+        type : "POST",
+        url : "getsurveyquestions.php",
+        data : "surveyid=<?php echo $sid ?>" ,
+        cache : false,
+        success : function(result){
+          result = JSON.parse(result) ;
+          console.log(result) ;
+          var len = result.length ;
+          sendobj = "" ;
+          for(var i = 0 ; i < len ; i++)
+          {
+            // console.log($('input[name='+ result[i]["qid"] +']:checked').val()) ;
+            if(result[i]["type"] == "1")
+            {
+              sendobj += $('input[name='+ result[i]["qid"] +']:checked').val() + ","
+            }
+          }
+          sendobj = sendobj.slice(0,sendobj.length-1);
+          console.log(sendobj) ;
+        }
+      }) ;
     })
+
+
 
     $.ajax({
       type : "POST",
@@ -51,18 +94,6 @@ echo $sid ;
 
         // get the questions of the survey and now getting the options
         var len = result.length ;
-
-        function getOptions(qid , options)
-        {
-          for(var i = 0 ; i < options.length ; i++)
-          {
-            if(qid == options[i]["qid"])
-            {
-              return options[i] ;
-            }
-          }
-        }
-
 
 
         $.ajax({
@@ -82,10 +113,21 @@ echo $sid ;
               if(result[i]["type"] == "1")
               {
                 console.log("mcq") ;
-                var opt = getOptions(result[i]["qid"] , options) ;
-                console.log(opt) ;
+                var optdata = getOptions(result[i]["qid"] , options) ;
+                console.log(optdata) ;
+                // got the mcq questions and the option of that questions
+                $("#options").append("<h4 class='header'>" + result[i]['question'] + "</h4>") ;
 
-
+                var opt = optdata["answer_option"] ;
+                var optarr = opt.split(",") ;
+                var olen = optarr.length ;
+                console.log(optarr) ;
+                console.log("option array length : " + olen)
+                for(var j = 0 ; j < olen ; j++)
+                {
+                  console.log("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"] +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]  + "'" + ">" + options[j]["answer_option"] + "</label>") ;
+                  $("#options").append("<input name=" + "'" + result[i]["qid"] + "'" +  " type='radio' id=" + "'" + result[i]["qid"]+j +  "'" + " value=" + "'" + result[i]["qid"]+"-"+result[i]["type"]+'-'+ j + "'" +  " />" + " <label for=" + "'" + result[i]["qid"]+j  + "'" + ">" + optarr[j] + "</label><br>") ;
+                }
 
               }
               if(result[i]["type"] == "2")
@@ -131,14 +173,14 @@ echo $sid ;
 
     <div id="heading">
       <div id="main-content">
-        <div id="question">
-          <!-- here goes the question -->
-        </div>
         <div id="options">
-          <!-- here goes the options of the questions -->
+                                                <!-- here goes the question -->
+                                              <!-- here goes the options of the questions -->
         </div>
       </div>
     </div>
+
+    <h4 class='header'>How would you rate the quality of the desk in your class</h4>
 
     <form action="#" class="myForm">
         <p>
