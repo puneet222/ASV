@@ -75,27 +75,148 @@ while($row = $result->fetch_assoc()) {
 
 
 }
-$send['question'] = ($question) ;
+$send = ($question) ;
 // $send['options'] = ($options) ;
 // $send['response'] = ($response) ;
 
 $st = json_encode($send) ;
-echo json_encode($send) ;
+// echo json_encode($send) ;
 
  ?>
 
- <html>
+ <!DOCTYPE html>
+
+ <html lang="en">
+ <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Material Design Bootstrap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="css2/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="css2/mdb.min.css" rel="stylesheet">
+
+    <!-- Your custom styles (optional) -->
+    <link href="css2/style.css" rel="stylesheet">
+    <!-- JQuery -->
+       <script type="text/javascript" src="js2/jquery-3.1.1.min.js"></script>
+
+       <!-- Bootstrap tooltips -->
+       <script type="text/javascript" src="js2/tether.min.js"></script>
+
+       <!-- Bootstrap core JavaScript -->
+       <script type="text/javascript" src="js2/bootstrap.min.js"></script>
+
+       <!-- MDB core JavaScript -->
+       <script type="text/javascript" src="js2/mdb.min.js"></script>
  <head>
    <script type="text/javascript">
       $('document').ready(function(){
+        $("#content").html("") ;
+        var clr = ["red" , "blue" , "yellow" , "green" , "pink"] ;
+        var hlght = ["pink" , "yellow" , "blue" , "red" , "green"] ;
         var test = <?php echo $st ?> ;
-        
+        var len = test.length ;
         console.log(test) ;
+        // for(var i = 0 ; i < len ; i++)
+        // {
+        //   $("#content").append("<canvas id='myChart"+i+"'"+"></canvas>") ;
+        // }
+        for(var i = 0 ; i < len ; i++)
+        {
+
+          var arr = test[i].split('"') ;
+          var question_proto = arr[3] ;
+          var options_proto = arr[7] ;
+          var response_proto = arr[11] ;
+
+          console.log(options_proto);
+          console.log(question_proto);
+          console.log(response_proto);
+
+          var options = options_proto.split(",") ;
+          var response = response_proto.split(",") ;
+
+          var html = '<div class="text-md-center"><h4>'+question_proto+'</h4></div><div class="row"><div class="col-md-6">' + "<canvas id='myChart"+i+"'"+"></canvas></div>" + '<div id="options" class="col-md-6"><br></div>' ;
+
+          // $("#content").append('<div class="text-md-center"><h4>'+question_proto+'</h4></div><div class="row"><div class="col-md-6">') ;
+          // $("#content").append("<canvas id='myChart"+i+"'"+"></canvas></div>") ;
+          // $("#content").append('<div id="options" class="col-md-6"><br><br></div></div>');
+
+          // $("#content").append(html) ;
+
+          var ilen = response.length ;
+          var data = [] ;
+          var str = "" ;
+          for(var j = 0 ; j < ilen ; j++)
+          {
+            var pstr = {value : response[j] , color : clr[j] , highlight : hlght[j] , label : options[j]} ;
+            data.push(pstr) ;
+            str += '<h5 style="color:' + clr[j] + '"><i class="fa fa-circle" aria-hidden="true"></i>' +  options[j] +  '</h5>' ;
+            // $("#content").append('<h5 style="color:' + clr[j] + '"><i class="fa fa-circle" aria-hidden="true"></i>' +  options[j] +  '</h5>')
+          }
+
+          var string = html + str + "</div>" ;
+
+          $("#content").append(string) ;
+
+          console.log(data);
+          var option = {
+          responsive: true,
+          };
+
+          // Get the context of the canvas element we want to select
+          var ctx = document.getElementById("myChart"+i).getContext('2d');
+          var myDoughnutChart = new Chart(ctx).Doughnut(data,option);
+
+        }
+
+        var da = [{value : 3  , color : "black" , highlight : "yellow" , label : "puneet"}] ;
+        var option = {
+        responsive: true,
+        };
+        var ctx = document.getElementById("puneet").getContext('2d');
+        var myDoughnutChart = new Chart(ctx).Doughnut(da,option);
+
 
       })
    </script>
-   <body>
 
-   </body>
  </head>
+
+
+    <body>
+      <div class="container">
+        <div id="content">
+
+        </div>
+
+
+
+        <div class="text-md-center">
+          <h4>This is the question </h4>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <br>
+              <canvas id="puneet"></canvas>
+          </div>
+          <div id="options" class="col-md-6">
+            <br><br />
+            <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option1</h5>
+            <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option2</h5>
+            <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option3</h5>
+            <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option4</h5>
+            <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option5</h5>
+          </div>
+
+        </div>
+      </div>
+    </body>
  </html>
