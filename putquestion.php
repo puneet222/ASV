@@ -72,9 +72,23 @@ $stmt->execute() ;
 if($type == "1") // if mcq
 {
   $option = $_POST['option'] ;
+  $optionlength = $_POST['optionlength'] ;
+  echo "options length = ".$optionlength ;
+  $olen = (int)$optionlength ;
+  $init = "" ;
+  for($i = 0 ; $i < $olen-1 ; $i++)
+  {
+    $init = $init."0," ;
+  }
+  $init = $init."0" ;
   $query = "INSERT INTO `survey_answer_custom`(`qid`, `answer_option`, `survey_id`) VALUES (?,?,?)" ;
   $stmt = $conn->prepare($query) ;
   $stmt->bind_param('sss' , $id , $option, $sid) ;
+  $stmt->execute() ;
+  // -- initialising the survey answer table with number of options having initial value 0
+  $query = "INSERT INTO `survey_answer_type1`(`qid`, `survey_id`, `response`) VALUES (?,?,?)" ;
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param('sss' , $id , $sid , $init ) ;
   $stmt->execute() ;
 
 }
