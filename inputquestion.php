@@ -147,9 +147,10 @@ $(document).ready(function(){
 			{
 				send_option = send_option + option[i]["tag"] + "," ;
 			}
+			var optionlength = option.length ;
 			send_option = send_option + option[option.length - 1]["tag"] ;
 			console.log(send_option) ;
-			send_data = "question=" + inputdata + "&option=" + send_option ; // change the send data variable accordingly
+			send_data = "question=" + inputdata + "&option=" + send_option + "&optionlength=" + option.length ; // change the send data variable accordingly
 		}
 		else {
 			send_data = "question=" + inputdata ;
@@ -199,22 +200,26 @@ $(document).ready(function(){
 	$("#custmcq").click(function(){
 		putQuestion(1) ;
 		$("#opt").show() ;
+		$("#modal-option").show() ;
 		$("#modal2").openModal();
 	})
 
 	$("#custinput").click(function(){
 		putQuestion(2) ;
 		$("#opt").hide() ;
+		$("#modal-option").hide() ;
 		$("#modal2").openModal() ;
 	})
 
 	$("#custrank").click(function(){
 		putQuestion(3) ;
+		$("#modal-option").hide() ;
 		$("#modal2").openModal() ;
 	})
 
 	$("#custcust").click(function(){
 		putQuestion(4) ;
+		$("#modal-option").show() ;
 		$("#modal2").openModal() ;
 	})
 
@@ -400,8 +405,10 @@ $(document).ready(function(){
           <div class="input-field col s12 l12">
             <textarea id="input-question" class="materialize-textarea" length="120"></textarea>
             <label for="input-question">Input Question</label>
-						<h5 class="header">Adding options just by entering</h5>
-						<div class="chips chips-placeholder" id="opt"></div>
+						<div id="modal-option">
+							<h5 class="header">Adding options just by entering</h5>
+							<div class="chips chips-placeholder" id="opt"></div>
+						</div>
 
           </div>
         </div>
