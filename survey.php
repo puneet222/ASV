@@ -1,9 +1,37 @@
 <?php
-$email = $_GET['email'] ;
 $sid = $_GET['surveyid'] ;
+include("dbcon.php") ;
+$query = "SELECT * FROM `survey` WHERE survey_id =". "'" . $sid . "'" ;
+$result = $conn ->query($query) ;
+$row = $result->fetch_assoc() ;
+$auth = $row['auth'] ;
+$start = $row['start'] ;
+echo $start ;
+function Redirect($url, $permanent = false)
+{
+    if (headers_sent() === false)
+    {
+        header('Location: ' . $url, true, ($permanent === true) ? 301 : 302);
+    }
 
+    exit();
+}
+// if($start == 0)
+// {
+// 	// survey not started yet
+// 	Redirect("notstart.html") ;
+// }
+// check the auth in order to check whether to take the email or Not
+if($auth == 1){
+$email = $_GET['email'] ;
 echo $email ;
-echo $sid ;
+}
+else{
+	$email = "not_authorized" ;
+	echo "not authrized" ;
+}
+
+
 
 ?>
 <html>
@@ -66,6 +94,7 @@ echo $sid ;
           result = JSON.parse(result) ;
           console.log(result) ;
           var len = result.length ;
+					console.log("\nlength is : " + len);
           sendobj = "" ;
           for(var i = 0 ; i < len ; i++)
           {
@@ -123,7 +152,9 @@ echo $sid ;
               if(result[i]["type"] == "1")
               {
                 console.log("mcq") ;
+								console.log("question is : " + result[i]["qid"]);
                 var optdata = getOptions(result[i]["qid"] , options) ;
+								console.log("\n\n\n\noptions data is -------------\n\n\n");
                 console.log(optdata) ;
                 // got the mcq questions and the option of that questions
                 $("#options").append("<h4 class='header'>" + result[i]['question'] + "</h4>") ;
@@ -245,7 +276,7 @@ echo $sid ;
         <div class="row">
           <div class="col l6 s12">
             <h5 class="white-text">Company Bio</h5>
-            <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+            <p class="grey-text text-lighten-4">We are a team of college students working on this project like its our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
 
 
           </div>
