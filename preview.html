@@ -24,6 +24,15 @@
   </style>
   <script type="text/javascript">
     $(document).ready(function(){
+      function getOptions(qid , option){
+        var olen = option.length ;
+        for(var i = 0 ; i < olen ; i++)
+        {
+          if(option[i]['qid'] == qid){
+            return option[i]['answer_option'] ;
+          }
+        }
+      }
       $("#show").click(function(){
         $.ajax({
           type:"GET",
@@ -32,7 +41,10 @@
           success:function(result){
             console.log(result) ;
             // got the data as a result
-            var object = JSON.parse(result) ; // parse the data as json object
+            var arr = result.split("-{]&%this_is_split$#%[{-")
+            var object = JSON.parse(arr[0]) ; // parse the data as json object
+            var option_object = JSON.parse(arr[1]) ;
+            console.log(option_object) ;
             var length = object.length ;
             console.log(object) ;
             // got all the question
@@ -58,11 +70,12 @@ console.log(question) ;
           for(var i = 0 ; i < length ; i++)
           {
             var qid = object[i]["qid"] ;
+
             var ques = object[i]["question"] ;
             var question = ' <div class="row"> <div class="col s12 m12"> <div class="card blue-grey darken-1" id="div-' + qid + '"> <div class="card-content white-text"><p id="div1-'+ qid  +'">'+ ques +'</p>' ;
             var down = '</div <div class="card-action"> <a href="#" class="del" id="' + qid + '"><i  class="material-icons">delete</i></a> <a href="#" class="edit" id="'+ qid +'"><i class="material-icons">mode_edit</i></a> </div> </div> </div> </div>' ;
 
-            $("#content").append(question+down).hide().fadeIn(2000) ;
+            $("#content").append(question+down).fadeIn(2000) ;
             // delay(1000) ;
           }
 
@@ -87,8 +100,6 @@ console.log(question) ;
         // removing the class of the input field of the  modal-question
         $("#modal-question").removeClass(qid) ;
         var question = $("#modal-question").val() ;
-        // console.log("question is : " + question) ;
-        // console.log("question id of the edited question" + qid) ;
         $.ajax({
           type : "POST" ,
           url : "editpreview.php" ,
@@ -117,6 +128,7 @@ console.log(question) ;
         var question = $("#div1-"+ val).text() ;
         console.log($("#div1-"+ val).text()) ;
         // $('.modal').modal();
+        // console.log( $(".collection-item").map(function() { return $(this).text(); }).get().join("|},")  ) ;
         $("#modal-question").val(question) ;
         $("#modal-question").addClass(val) ;
         $('#modal1').openModal() ;
@@ -169,8 +181,30 @@ console.log(question) ;
               </div>
               <div class="card-action">
                 <a href="#" class="del" id="idd"><i  class="material-icons">delete</i></a>
-                <a href="#"><i class="material-icons">mode_edit</i></a>
+                <a href="#"><i class="material-icons edit">mode_edit</i></a>
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 m12">
+            <ul class="collection with-header">
+              <li class="collection-header"><h4>How would you rate the quality of the class room ?</h4></li>
+              <div id="test-option">
+                <li class="collection-item">Very Satisfied</li>
+                <li class="collection-item">Satisfied</li>
+                <li class="collection-item">Not Very Satisfied</li>
+                <li class="collection-item">Not at all Satisfied</li>
+                <li><div class="row" style="margin:5px;"><div class="col s4 center"><a class="btn red">
+                  <i  class="material-icons">delete</i>   Delete</div></a>
+                  <div class="col s4 center"><a class="btn blue">
+                    <i class="material-icons">mode_edit</i>   Edit Question</div></a>
+                    <div class="col s4 center"><a class="btn pink">
+                      <i class="material-icons">mode_edit</i>   Edit Option</div></a>
+                    </div>
+                  </li>
+              </div>
+            </ul>
             </div>
           </div>
         </div>
