@@ -16,6 +16,13 @@ function Redirect($url, $permanent = false)
 
     exit();
 }
+$query = "SELECT * FROM `auth_table` WHERE survey_id =". "'" . $sid . "'" ;
+$result = $conn ->query($query) ;
+$row = $result->fetch_assoc() ;
+$filled = $row['filled'] ;
+if($filled == 1){
+	Redirect("alreadyfilled.html");
+}
 // if($start == 0)
 // {
 // 	// survey not started yet
@@ -28,7 +35,7 @@ echo $email ;
 }
 else{
 	$email = "not_authorized" ;
-	echo "not authrized" ;
+	// echo "not authorized" ;
 }
 
 
@@ -266,7 +273,7 @@ else{
 
         </form>
 
-        <button id="bt">test</button>
+        <button id="bt">Submit Response</button>
 
 </div>
 
