@@ -71,8 +71,8 @@ $(document).ready(function(){
       data : dat,
       cache : false ,
       success : function(result){
-        console.log(typeof result) ;
-        console.log(result) ;
+        // alert(typeof result) ;
+        // alert(result) ;
         if(result == 1)
         {
           // redirect to the survey
