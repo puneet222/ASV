@@ -2,6 +2,13 @@
 $sid = $_GET["surveyid"] ;
 include("dbcon.php") ;
 
+// getting the heading of the survey
+$query = 'SELECT * FROM `survey` WHERE survey_id='.'"'.$sid.'"' ;
+$result = $conn->query($query);
+$data = $result->fetch_assoc() ;
+$head = $data['survey_heading'] ;
+// echo $head;
+
 $query = "SELECT * FROM `survey_question` WHERE survey_id=". "'" . $sid . "'" ;
 $result = $conn->query($query);
 $send = array() ;
@@ -91,7 +98,7 @@ $st = json_encode($send) ;
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-    <title>Material Design Bootstrap</title>
+    <title>Survey Results</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
@@ -116,11 +123,13 @@ $st = json_encode($send) ;
        <!-- MDB core JavaScript -->
        <script type="text/javascript" src="js2/mdb.min.js"></script>
  <head>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
    <script type="text/javascript">
       $('document').ready(function(){
         $("#content").html("") ;
-        var clr = ["red" , "blue" , "yellow" , "green" , "pink"] ;
-        var hlght = ["pink" , "yellow" , "blue" , "red" , "green"] ;
+        var clr = ["#CB4335" , "#CA6F1E" , "#D4AC0D" , "#566573" , "#3498DB"] ;
+        var hlght = ["#E74C3C" , "#E67E22" , "#F8C471" , "#808B96" , "#85C1E9"] ;
         var test = <?php echo $st ?> ;
         var len = test.length ;
         console.log(test) ;
@@ -193,12 +202,26 @@ $st = json_encode($send) ;
 
     <body>
       <div class="container">
+        <div class="row">
+          <div class="col-md-8 center" style="position:relative;top:20px;left:150px;">
+            <h2 class="text-center font-weight-normal"><?php echo $head ?> Survey Results</h2>
+          </div>
+          <div class="col-md-4 center">
+            <button type="button" class="btn btn-amber" style="position:fixed">Profile</button>
+          </div>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </div>
         <div id="content">
 
         </div>
 
 
-
+<!--
         <div class="text-md-center">
           <h4>This is the question </h4>
         </div>
@@ -216,7 +239,7 @@ $st = json_encode($send) ;
             <h5 style="color:red"><i class="fa fa-circle" aria-hidden="true"></i>  option5</h5>
           </div>
 
-        </div>
+        </div> -->
       </div>
     </body>
  </html>
