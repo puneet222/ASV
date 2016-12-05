@@ -15,6 +15,8 @@ $send = array() ;
 $question = array() ;
 $options = array() ;
 $response = array() ;
+$inputquestion = array() ;
+$inputarray = array() ;
 while($row = $result->fetch_assoc()) {
     // got the question and qid and  the type of the question
     $innerQuestion = array() ;
@@ -77,6 +79,22 @@ while($row = $result->fetch_assoc()) {
 
 
     }
+    else{
+      // ------------- for input type questions
+      $query4 = "SELECT * FROM `survey_answer_type2` WHERE qid = ". "'" . $row["qid"] . "'" ;
+      // echo $query4 ;
+      $inputanswer = array() ;
+      $result4 = $conn->query($query4) ;
+      // echo $row['qid'] ;
+      while($row4 = $result4->fetch_assoc()){
+        $inputanswer[]['answer'] = $row4['answer'] ;
+      }
+      $inputquestion['question'] = $row['question'] ;
+      $inputquestion['qid'] = $row['qid'] ;
+      $inputquestion['data'] = json_encode($inputanswer) ;
+      $inputarray[] = $inputquestion ;
+
+    }
 
 
 
@@ -87,9 +105,13 @@ $send = ($question) ;
 // $send['response'] = ($response) ;
 
 $st = json_encode($send) ;
-// echo json_encode($send) ;
+$ipq = json_encode($inputarray) ;
+
 
  ?>
+ <?php
+
+  ?>
 
  <!DOCTYPE html>
 
@@ -131,6 +153,20 @@ $st = json_encode($send) ;
         var clr = ["#CB4335" , "#CA6F1E" , "#D4AC0D" , "#566573" , "#3498DB"] ;
         var hlght = ["#E74C3C" , "#E67E22" , "#F8C471" , "#808B96" , "#85C1E9"] ;
         var test = <?php echo $st ?> ;
+        var inputdata = <?php echo $ipq ?> ;
+        console.log(inputdata) ;
+        var inhtml = "" ;
+        for(var i = 0 ; i < inputdata.length ; i++){
+          var inputanswers = JSON.parse(inputdata[i]['data']) ;
+          console.log(inputanswers) ;
+          inhtml+= '<div class="text-md-center"><h3>'+inputdata[i]['question']+'</h3></div><br><br>' ;
+          for(var j = 0; j < inputanswers.length ; j++){
+            inhtml += '<div class="text-md-center"><h4><b>answer '+(j+1)+'</b></h4><h4>'+inputanswers[j]['answer']+'</h4></div>' ;
+            console.log(inhtml) ;
+          }
+
+        }
+          $("#input-content").append(inhtml);
         var len = test.length ;
         console.log(test) ;
         // for(var i = 0 ; i < len ; i++)
@@ -193,8 +229,8 @@ $st = json_encode($send) ;
         var ctx = document.getElementById("puneet").getContext('2d');
         var myDoughnutChart = new Chart(ctx).Doughnut(da,option);
 
-
       })
+
    </script>
 
  </head>
@@ -207,7 +243,7 @@ $st = json_encode($send) ;
             <h2 class="text-center font-weight-normal"><?php echo $head ?> Survey Results</h2>
           </div>
           <div class="col-md-4 center">
-            <button type="button" class="btn btn-amber" style="position:fixed">Profile</button>
+            <a href="organizer.php"><button type="button" class="btn btn-amber" style="position:fixed">Profile</button></a>
           </div>
           <br>
           <br>
@@ -217,6 +253,9 @@ $st = json_encode($send) ;
           <br>
         </div>
         <div id="content">
+
+        </div>
+        <div id="input-content">
 
         </div>
 
