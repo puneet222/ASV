@@ -90,7 +90,17 @@ console.log(question) ;
               $("#content").append(question2+option_div+down2).fadeIn(2000) ;
             }
             if(ques_type == "rank"){
-              console.log("\nrank\n");
+              var rank_arr = ["Very Satisfied" , "Satisfied" , "Neutral" , "Somewhat Satisfied" , "Not Satisfied at all"] ;
+              var option_div = "" ;
+              for(var j = 0 ; j < 5 ; j++){
+                option_div += ' <li class="collection-item option-' +qid+ '" >'+rank_arr[j]+'</li>' ;
+              }
+              var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              $("#content").append(question2+option_div+down3).fadeIn(2000) ;
+            }
+            if(ques_type == "input"){
+              var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              $("#content").append(question2+down3).fadeIn(2000) ;
             }
             // $("#content").append(question+down).fadeIn(2000) ;
             // delay(1000) ;
@@ -131,8 +141,8 @@ console.log(question) ;
 
       $(document).on('click' , '#edit-options-btn' , function(){
         var new_options = $('.chips').material_chip('data');
-        var qid = $("#old-options").attr("class") ;
-        $("#old-question").removeClass(qid) ;
+        var qid = $("#old_options").attr("class") ;
+        $("#old_options").removeClass(qid) ;
         var send_option = "" ;
   			for(var i = 0 ; i < (new_options.length - 1) ; i++)
   			{
@@ -141,6 +151,17 @@ console.log(question) ;
   			var optionlength = new_options.length ;
         send_option = send_option + new_options[new_options.length - 1]["tag"] ;
         console.log(send_option) ;
+        var send_data = "options=" + send_option + "&optionlength=" + optionlength + "&questionid=" + qid ;
+        console.log(send_data) ;
+        $.ajax({
+          type : "POST" ,
+          url : "updateandeditoption.php" ,
+          data : send_data ,
+          cache : false ,
+          success : function(result){
+            console.log(result) ;
+          }
+        })
       })
 
       // ----- click function of delete button ----------------------------------------
@@ -156,6 +177,7 @@ console.log(question) ;
       // ------------- click function of options edit button -------------------------
       $(document).on('click' , '.option-edit' , function(){
         var val = $(this).attr('id') ;
+        // console.log("value is : "+ val) ;
         console.log(val) ;
         var opt_data = $(".option-"+val).map(function() { return $(this).text(); }).get().join("|},{") ;
         // ---------------------------------------  got the question options data
@@ -169,6 +191,7 @@ console.log(question) ;
         option_html += '</ul>' ;
         console.log(option_html);
         $("#old_options").html(option_html) ;
+          $("#old_options").addClass(val) ;
         var option_json = {data: disp_data,} ;
         console.log(option_json);
         $('.chips').material_chip();
