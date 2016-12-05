@@ -2,6 +2,13 @@
 include("dbcon.php");
 $sid = $_POST["surveyid"] ;
 $email = $_POST["email"] ;
+if($email == "not_authorized"){
+  // no need to get the mail as the survey is open
+}
+else{
+  $query = 'UPDATE `auth_table` SET `filled`=1 WHERE survey_id="'.$sid.'"'.' AND email_id="'.$email.'"' ;
+  mysqli_query($conn , $query);
+}
 $data = $_POST["str"] ;
 echo $data."--------- in php" ;
 $ques = explode(",", $data) ;
