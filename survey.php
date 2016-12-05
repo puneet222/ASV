@@ -1,12 +1,19 @@
 <?php
 $sid = $_GET['surveyid'] ;
 include("dbcon.php") ;
+// getting the heading of the survey
+$query = 'SELECT * FROM `survey` WHERE survey_id='.'"'.$sid.'"' ;
+$result = $conn->query($query);
+$data = $result->fetch_assoc() ;
+$head = $data['survey_heading'] ;
+
+
 $query = "SELECT * FROM `survey` WHERE survey_id =". "'" . $sid . "'" ;
 $result = $conn ->query($query) ;
 $row = $result->fetch_assoc() ;
 $auth = $row['auth'] ;
 $start = $row['start'] ;
-echo $start ;
+// echo $start ;
 function Redirect($url, $permanent = false)
 {
     if (headers_sent() === false)
@@ -16,13 +23,7 @@ function Redirect($url, $permanent = false)
 
     exit();
 }
-$query = "SELECT * FROM `auth_table` WHERE survey_id =". "'" . $sid . "'" ;
-$result = $conn ->query($query) ;
-$row = $result->fetch_assoc() ;
-$filled = $row['filled'] ;
-if($filled == 1){
-	Redirect("alreadyfilled.html");
-}
+
 // if($start == 0)
 // {
 // 	// survey not started yet
@@ -31,11 +32,23 @@ if($filled == 1){
 // check the auth in order to check whether to take the email or Not
 if($auth == 1){
 $email = $_GET['email'] ;
-echo $email ;
+// echo $email ;
 }
 else{
 	$email = "not_authorized" ;
 	// echo "not authorized" ;
+}
+$query = "SELECT * FROM `auth_table` WHERE survey_id =". "'" . $sid . "'"." AND email_id='".$email."'" ;
+// echo $query ;
+$result = $conn ->query($query) ;
+$filled = 0 ;
+while($row = $result->fetch_assoc()){
+  $filled = $row['filled'] ;
+}
+
+
+if($filled == 1){
+	Redirect("alreadyfilled.html");
 }
 
 
@@ -63,7 +76,7 @@ else{
 
   <script type="text/javascript">
   $(document).ready(function(){
-
+    $("#head-survey").html("<h3 class='header'><?php echo $head ?>  Survey </h3>" )
     $("#question").html("") ;
     $("#options").html("");
 
@@ -103,26 +116,59 @@ else{
           var len = result.length ;
 					console.log("\nlength is : " + len);
           sendobj = "" ;
+          var sendanswer = "" ;
+          var mflag = 1 ;
+          var iflag = 1 ;
           for(var i = 0 ; i < len ; i++)
           {
             // console.log($('input[name='+ result[i]["qid"] +']:checked').val()) ;
             if(result[i]["type"] == "1" || result[i]["type"] == "4" || result[i]["type"] == "3")
             {
-              sendobj += $('input[name='+ result[i]["qid"] +']:checked').val() + ","
+
+              if(!$('input[name='+ result[i]["qid"] +']:checked').val()){
+								$("#div1"+result[i]["qid"]).addClass("red") ;
+                mflag = 0 ;
+							}
+							else{
+								sendobj += $('input[name='+ result[i]["qid"] +']:checked').val() + ",";
+							}
+            }
+            else{
+              // handle input questions
+              if($("#input-"+result[i]['qid']).val() == ""){
+                // null string then skip
+              }
+              else{
+                  sendanswer += result[i]['qid']+")}_|-[{"+$("#input-"+result[i]['qid']).val() + " -[;'per]'0)" ;
+              }
+
             }
           }
+          console.log("------------------------------------------------------------------------------------") ;
+          console.log(sendanswer) ;
           sendobj = sendobj.slice(0,sendobj.length-1);
+          sendanswer = sendanswer.slice(0,sendanswer.length-12) ;
+          console.log("----------"  + sendanswer) ;
           console.log(sendobj) ;
           // send this to another page to update the database
-          $.ajax({
-            type : "POST" ,
-            url : "submitresponse.php",
-            data : "str=" + sendobj + "&surveyid=" + "<?php echo $sid ?>" + "&email=" + "<?php echo $email ?>" ,
-            cache : false,
-            success : function(response){
-              console.log(response) ;
-            }
-          })
+          if(mflag == 1 && iflag == 1){
+            $.ajax({
+              type : "POST" ,
+              url : "submitresponse.php",
+              data : "str=" + sendobj + "&surveyid=" + "<?php echo $sid ?>" + "&email=" + "<?php echo $email ?>" + "&answerquestion=" + sendanswer ,
+              cache : false,
+              success : function(response){
+                console.log(response) ;
+                window.location.href = "aftersubmit.html" ;
+  							// -- ---------------------Redirecting to another page after filling the survey -----------
+  							// window.location.href = "aftersurveyresponse.php" ;
+              }
+            })
+
+          } // end if
+          else{
+            alert("please fill all the questions") ;
+          }
         }
       }) ;
     })
@@ -181,7 +227,9 @@ else{
               if(result[i]["type"] == "2")
               {
                 console.log("input");
-
+                var inputhtml = "<h4 class='header'>" + result[i]['question'] + "</h4>" ;
+                inputhtml += '<textarea id="input-'+result[i]['qid']+'" class="materialize-textarea" length="120"></textarea><label for="input-'+result[i]['qid']+'">Input Answer</label>'
+                $("#input-content").append(inputhtml) ;
               }
               if(result[i]["type"] == "3")
               {
@@ -230,7 +278,8 @@ else{
   </nav>
 
   <div class="container">
-
+  <div id="head-survey" class="center text-center">
+  </div>
     <div id="heading">
       <div id="main-content">
         <div id="options">
@@ -272,8 +321,14 @@ else{
           </p>
 
         </form>
+    <div id="input-content">
+    </div>
 
-        <button id="bt">Submit Response</button>
+        <div class="row">
+				<div class="col m12 center">
+				<button id="bt" class="btn blue">Submit Response</button>
+				</div>
+				</div>
 
 </div>
 
