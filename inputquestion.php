@@ -93,12 +93,28 @@ $(document).ready(function(){
       console.log(object[0]["qid"]) ;
       //---------------------------------------------------creating a question modal
       var html = "" ;
+			// if(type==1){
+			// 	// alert("mcq") ;
+			// 	var options = "" ;
+			// 	$.ajax({										// ----------------------------------------  if you want to display optoins with the questions
+			// 		type : "POST" ,
+			// 		url : "getdboptions.php",
+			// 		cache : false,
+			// 		success : function(result2){
+			// 			console.log(result2) ;
+			// 			var optionobject = JSON.parse(result2) ;
+			// 			console.log(optionobject) ;
+			// 		}
+			// 	})
+			// }
       for(var i = 0 ; i < size ; i++)
       {
         html = html + "<input type='checkbox' id=" + "'" + object[i]["qid"] + "'" + " value=" + "'" +object[i]["qid"] + "'" +"/>" +
         "<label for=" + "'" +object[i]["qid"] + "'" + "><h5 class='brown-text center'> " + object[i]["question"] + "</h5></label><br><br>" ;
+
       }
       console.log(html) ;
+
       $("#qcontent").html(html) ;
       $("#modal1").openModal();
       }
