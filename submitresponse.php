@@ -10,6 +10,7 @@ else{
   mysqli_query($conn , $query);
 }
 $data = $_POST["str"] ;
+$inputqa = $_POST['answerquestion'] ;
 echo $data."--------- in php" ;
 $ques = explode(",", $data) ;
 
@@ -68,4 +69,18 @@ for ($i=0; $i < count($ques); $i++) {
     }
   }
 }
+echo $inputqa ;
+$total = explode("-[;'per]'0)", $inputqa) ;
+for($i = 0 ; $i < sizeof($total) ; $i++){
+  $inner = explode(")}_|-[{", $total[$i]) ;
+    echo "question id --------> ".$inner[0] ;
+    echo "answer  ------->  ".$inner[1] ;
+  $query = "INSERT INTO `survey_answer_type2`(`qid`, `answer`) VALUES (?,?)" ;
+  echo $query ;
+  $stmt = $conn->prepare($query) ;
+  $stmt->bind_param('ss', $inner[0] , $inner[1]);
+  $stmt->execute();
+  $stmt->close();
+}
+
 ?>
