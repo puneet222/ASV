@@ -24,11 +24,15 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
-// if($start == 0)
-// {
-// 	// survey not started yet
-// 	Redirect("notstart.html") ;
-// }
+if($start == 0)
+{
+	// survey not started yet
+	Redirect("notstart.html") ;
+}
+if($start == 2){
+  Redirect("stopsurvey.html");
+}
+
 // check the auth in order to check whether to take the email or Not
 if($auth == 1){
 $email = $_GET['email'] ;
@@ -289,38 +293,7 @@ if($filled == 1){
       </div>
     </div>
 
-    <h4 class='header'>How would you rate the quality of the desk in your class</h4>
 
-    <form action="#" class="myForm">
-        <p>
-          <input name="group1" type="radio" id="test1" value="red" />
-          <label for="test1">Red</label>
-        </p>
-        <p>
-          <input name="group1" type="radio" id="test2" value="yell"/>
-          <label for="test2">Yellow</label>
-        </p>
-        <p>
-          <input class="with-gap" name="group1" type="radio" id="test3"  value="gre"/>
-          <label for="test3">Green</label>
-        </p>
-      </form>
-
-      <form action="#" class="myForm">
-          <p>
-            <input name="group2" type="radio" id="test12" value="yelloq" />
-            <label for="test12">Red</label>
-          </p>
-          <p>
-            <input name="group2" type="radio" id="test22" value="yell2" />
-            <label for="test22">Yellow</label>
-          </p>
-          <p>
-            <input class="with-gap" name="group2" type="radio" id="test32" value="gre2" />
-            <label for="test32">Green</label>
-          </p>
-
-        </form>
     <div id="input-content">
     </div>
 
