@@ -1,6 +1,13 @@
 <?php
 session_start() ;
 $surveyid = $_SESSION["surveyid"] ;
+include('dbcon.php') ;
+$query = 'SELECT * FROM `survey` WHERE survey_id="'.$surveyid.'"' ;
+// echo $query ;
+$result = $conn->query($query) ;
+$row = $result->fetch_assoc() ;
+$start = $row['start'] ;
+// echo $start ;
 ?>
 
 <!DOCTYPE html>
@@ -313,7 +320,7 @@ $(document).ready(function(){
         <a class="btn pink darken-2 showcat">Show Categories</a>
       </div>
 			<div class="col s6 l3 m6 center">
-				<a class="btn light-blue darken-4 showcat" href="preview.html">Preview</a>
+				<a class="btn light-blue darken-4 showcat" href="preview.php">Preview</a>
 			</div>
     </div>
   </div>
@@ -338,7 +345,7 @@ $(document).ready(function(){
         <a class="btn brown darken-2 showcat">Show Categories</a>
       </div>
 			<div class="col s6 l3 m6 center">
-				<a class="btn light-blue darken-4 showcat" href="preview.html">Preview</a>
+				<a class="btn light-blue darken-4 showcat" href="preview.php">Preview</a>
 			</div>
     </div>
   </div>
@@ -363,7 +370,7 @@ $(document).ready(function(){
         <a class="btn brown darken-2 showcat">Show Categories</a>
       </div>
 			<div class="col s6 l3 m6 center">
-				<a class="btn light-blue darken-4 showcat" href="preview.html">Preview</a>
+				<a class="btn light-blue darken-4 showcat" href="preview.php">Preview</a>
 			</div>
     </div>
   </div>
@@ -388,7 +395,7 @@ $(document).ready(function(){
         <a class="btn brown darken-2 showcat">Show Categories</a>
       </div>
 			<div class="col s6 l3 m6 center">
-				<a class="btn light-blue darken-4 showcat" href="preview.html">Preview</a>
+				<a class="btn light-blue darken-4 showcat" href="preview.php">Preview</a>
 			</div>
     </div>
   </div>
