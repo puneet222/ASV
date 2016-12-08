@@ -74,10 +74,11 @@ console.log(question) ;
 
             var ques = object[i]["question"] ;
             var question = ' <div class="row"> <div class="col s12 m12"> <div class="card blue-grey darken-1" id="div-' + qid + '"> <div class="card-content white-text"><p id="div1-'+ qid  +'">'+ ques +'</p>' ;
-            var down = '</div <div class="card-action"> <a href="#" class="del" id="' + qid + '"><i  class="material-icons">delete</i></a> <a href="#" class="edit" id="'+ qid +'"><i class="material-icons">mode_edit</i></a> </div> </div> </div> </div>' ;
+            // var down = '</div <div class="card-action"> <a href="#" class="del" id="' + qid + '"><i  class="material-icons">delete</i></a> <a href="#" class="edit" id="'+ qid +'"><i class="material-icons">mode_edit</i></a> </div> </div> </div> </div>' ;
 
             var question2 = ' <div class="row"> <div class="col s12 m12"><ul class="collection with-header" id="div-' + qid + '"><li class="collection-header"><h4 id="div1-'+ qid  +'">'+ ques +'</h4></li>' ;
-            var down2 = '  <li><div class="row" style="margin:5px;"> <div class="col s4 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s4 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a> <div class="col s4 center"><a class="option-edit btn pink"  id="'+ qid +'"><i class="material-icons">mode_edit</i>   Edit Option</div></a></div></li></div></ul></div></div>' ;
+            // var down2 = '  <li><div class="row" style="margin:5px;"> <div class="col s4 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s4 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a> <div class="col s4 center"><a class="option-edit btn pink"  id="'+ qid +'"><i class="material-icons">mode_edit</i>   Edit Option</div></a></div></li></div></ul></div></div>' ;
+            var down2 = '</div></ul></div></div>' ;
             if(ques_type == "mcq"){
               console.log("\nmcq\n");
               var dis_options = getOptions(qid , option_object) ;
@@ -95,11 +96,13 @@ console.log(question) ;
               for(var j = 0 ; j < 5 ; j++){
                 option_div += ' <li class="collection-item option-' +qid+ '" >'+rank_arr[j]+'</li>' ;
               }
-              var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              // var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              var down3 = '</ul></div></div>' ;
               $("#content").append(question2+option_div+down3).fadeIn(2000) ;
             }
             if(ques_type == "input"){
-              var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              // var down3 = '  <li><div class="row" style="margin:5px;"> <div class="col s6 center"> <a href="#" class="edit btn blue" id="'+ qid +'"><i class="material-icons">mode_edit</i> Edit Question</a></div><div class="col s6 center"><a href="#" class="del btn red" id="' + qid + '"><i  class="material-icons">delete</i> Delete</div></a></li></div></ul></div></div>' ;
+              var down3 = '</ul></div></div>' ;
               $("#content").append(question2+down3).fadeIn(2000) ;
             }
             // $("#content").append(question+down).fadeIn(2000) ;
