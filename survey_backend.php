@@ -1,5 +1,6 @@
 <?php
 include 'dbcon.php';
+
 $fname =  $_POST["first_name"];
 $lname = $_POST["last_name"];
 $org = $_POST["org_name"];
@@ -18,7 +19,13 @@ $query = "INSERT INTO `auto_survey_voting`.`survey` (`organisation`, `survey_id`
 $select = "select survey from ids";
 $result = $conn->query($select);
 
-
+function getpassword(){
+$passarray = array('kAkm' , 'jn1KS' ,'A5Nkas' , 's8iOSo' , 'dS5S' , 'tgSoj' , 'tgd3') ;
+$onep = rand(0,6);
+$twop = rand(0,6) ;
+$pass = $passarray[$onep] . $passarray[$twop] ;
+return $pass ;
+}
 $fn;$ln;$userpass = 'password';$em;$filled = 'N';
 
 while($row = $result->fetch_assoc())
@@ -48,6 +55,7 @@ if (($handle = fopen($_FILES["a"]["tmp_name"], "r")) !== FALSE) {
     	else
     		echo "false";
     	echo $fn.$ln.$em.$sid.$userpass.$filled."<BR>";
+      $userpass = getpassword() ;
     	$aa->bind_param('ssssss',$sid,$userpass,$em,$filled,$fn,$ln);
     	//$aa->bind_param('ssssss',$sid,$sid,$sid,$sid,$sid,$sid);
     	$aa->execute();
