@@ -1,1 +1,94 @@
-thank you have successfully filled the survey
+<html>
+    <head>
+        <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <!-- Latest compiled and minified CSS -->
+        <style>
+            body{
+                background-color: whitesmoke;
+            }
+            .textline{
+                color:dodgerblue;
+            }
+                .loader {
+          position: relative;
+          margin: 0px auto;
+          width: 100px;
+          height:100px;
+          zoom: $zoom;
+        }
+        .circular{animation:rotate 2s linear forwards ;width:100px;height:100px;position:relative}
+        .path{stroke:#007aff; stroke-dasharray: 1,200;
+          stroke-dashoffset: 0;
+          animation:
+           dash 1.5s ease-in-out forwards,
+           color 6s ease-in-out infinite
+          ;
+          stroke-linecap: round;}
+          @keyframes dash{
+         0%{
+          stroke-dasharray: 1,200;
+          stroke-dashoffset: 0;
+         }
+
+         100%{
+          stroke-dasharray: 150,200;
+          stroke-dashoffset: 10;
+         }
+
+        }
+        @keyframes color{
+          100%, 0%{
+            stroke: #f00;
+          }
+          40%{
+            stroke: #007aff;
+          }
+          66%{
+            stroke: #24555d;
+          }
+          80%, 90%{
+            stroke: #789642;
+          }
+        }
+        @keyframes rotate{
+            100%{transform:rotate(360deg)}
+            }
+
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+
+             animation: stroke 0.5s  cubic-bezier(0.65, 0, 0.45, 1) 1.5s forwards, color 6s linear infinite;}
+            @keyframes stroke {
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+        .suc{stroke:#007aff;
+            stroke-width:2;
+            position:absolute;top:30px;left:30px;
+            width:40px;height:40px;}
+
+            </style>
+    </head>
+    <body>
+            <div class="loader">
+          <svg class="circular">
+             <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"  stroke-color="#f00" stroke-miterlimit="10"/>
+
+          </svg>
+          <svg class="suc">
+          <path class="checkmark__check" fill="none" d="M10.7,20.4l5.3,5.3l12.4-12.5"></path>
+          </svg>
+        </div>
+
+        <div class="container">
+
+            <h4 class="center textline">Thank you!<br>You've Sucessfully filled the form.</h4>
+        </div>
+    </body>
+</html>
